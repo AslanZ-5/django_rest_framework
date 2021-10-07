@@ -12,12 +12,12 @@ from rest_framework.views import APIView
 
 class ArticleAPIView(APIView):
 
-    def get(self, request):
+    def get(self, request, format=None):
         articles = Article.objects.all()
         serializer = ArticleSerializer(articles, many=True)
         return Response(serializer.data)
 
-    def post(self, request):
+    def post(self, request, format=None):
         serializer = ArticleSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
@@ -32,12 +32,12 @@ class ArticleDetails(APIView):
         except Article.DoesNotExist:
             return HttpResponse(status=status.HTTP_404_NOT_FOUND)
 
-    def get(self, request, id):
+    def get(self, request, id, format=None):
         article = self.get_object(id)
         serializer = ArticleSerializer(article)
         return Response(serializer.data)
 
-    def put(self, request, id):
+    def put(self, request, id, format=None):
         article = self.get_object(id)
         serializer = ArticleSerializer(article, data=request.data)
         if serializer.is_valid():
@@ -45,7 +45,7 @@ class ArticleDetails(APIView):
             return Response(serializer.data)
         return JsonResponse(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-    def delete(self,request, id):
+    def delete(self, request, id, format=None):
         article = self.get_object(id)
         article.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
