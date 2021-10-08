@@ -6,13 +6,18 @@ from .views import (article_list,
                     ArticleAPIView,
                     ArticleDetails,
                     GenericAPIView,
-                    ArticleViewSet
+                    ArticleViewSet,
+                    ModelViewSet
 )
 
 router = DefaultRouter()
 router.register('article',ArticleViewSet,basename='article')
+router.register('article',ModelViewSet,basename='art_model_view')
+
 
 urlpatterns = [
+    path('model/',include(router.urls)),
+    path('model/<int:pk>/',include(router.urls)),
     path('viewset/',include(router.urls)),
     path('viewset/<int:pk>/',include(router.urls)),
     # path('article/',article_list,name='article'),
